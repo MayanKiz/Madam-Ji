@@ -16,7 +16,7 @@ export default function ProposalSite() {
   const [musicStatus, setMusicStatus] = useState("idle") // idle, loading, playing
   const audioRef = useRef(null)
 
-  const AUDIO_PATH = "/audio/Long-Drive-Le-Chal-Slowed-Reverb-Lufi-Song-Rider-Song-slowed.m4a"
+  const AUDIO_PATH = "/audio/Surmedani-From-Bajre-Da-Sitta.m4a"
 
   useEffect(() => {
     const timer = setTimeout(() => {
