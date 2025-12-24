@@ -17,7 +17,7 @@ export default function FirstScreen({ onNext }) {
 
     return (
         <>
-            <audio ref={audioRef} src="/audio/bg.mp3" loop />
+            <audio ref={audioRef} src="/audio/hjbg.mp3" loop />
 
             <motion.div
                 className="min-h-screen flex flex-col items-center justify-center px-4 py-6 relative z-10 overflow-hidden"
