@@ -130,7 +130,7 @@ I don’t know about the destination, but I promise... I want this beautiful jou
                       whileTap={{ scale: 0.95 }}
                       className="bg-gradient-to-r from-pink-600 to-rose-700 text-white w-full py-4 rounded-full font-bold tracking-widest text-xs uppercase shadow-lg shadow-pink-900/40"
                     >
-                      Yes, Hamesha! ❤️
+                      Yes, Bilkull ❤️
                     </motion.button>
                   </motion.div>
                 )}
