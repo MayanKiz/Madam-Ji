@@ -23,19 +23,21 @@ export default function FinalScreen() {
   // Line breaks fix ke liye message ko template literal me properly format kiya hai
   const proposalMessage = `Suno... ✨
 
-Jab se tum meri life mein aayi ho na, sach mein har cheez lajawab lagne lagi hai. Pata nahi kaise samjhaun, par tumhari ye jo baatein hain, tumhari ye jo chhoti-chhoti adayein hain... 
+Jab se tum meri life mein aayi ho na.....
+ sach mein har cheez lajawab lagne lagi hai.... Pata nahi kaise samjhaun..... par tumhari ye jo baatein hain, tumhari ye jo chhoti-chhoti adayein hain...tumhri ye sarartien sab kasam se pagal banadeti hh...
 
-Ye mere dil ko ek aisa sukoon deti hain jo maine kahin aur mehsoos hi nahi kiya 🧿.
+Ye mere dil ko ek aisa sukoon deti hain jo maine kahin aur mehsoos hi nahi kiya 🧿...youu aree tu much special and precious for me..💝
 
-Tumhari khoobsurti sirf chehre se nahi, tumhare us bholepan se hai jo tumhari har baat mein jhalakta hai 🥺. Tumhare saath waqt kaise guzar jata hai, pata hi nahi chalta. 
+Tumhari khoobsurti sirf chehre se nahi.... tumhare us bholepan se hai jo tumhari har baat mein jhalakta hai 🥺.... Tumhare saath waqt kaise guzar jata hai, pata hi nahi chalta......
 
-Tum sirf meri partner nahi, meri wo sabse pyari dost ho jise main kabhi khona nahi chahta 🫂.
+Tum sirf meri partner nahi, meri wo sabse pyari dost ho jise main kabhi khona nahi chahta 🫂....
+pahla koi aisa mila joo mughey khone se darata haiii.....
 
-Hum dono ko pata hai ki raaste shayad shadi tak na jayein, par is safar mein main tumhara har ek kadam par saath dena chahta hoon 💍🚫. 
+Hum dono ko pata hai ki raaste shayad shadi tak na jayein, par is safar mein main tumhara har ek kadam par saath dena chahta hoon 💍🚫......
 
-Main chahta hoon ki tumhari har mushkil meri ho jaye, aur meri har khushi tumhari smile se shuru ho.
+Main chahta hoon ki tumhari har mushkil meri ho jaye, aur meri har khushi tumhari smile se shuru ho....
 
-Tum bahut precious ho mere liye... shayad is duniya mein sabse zyada ✨. Main tumhara har roop accept karta hoon—as my best friend, my soulmate, and my everything.
+Tum bahut precious ho mere liye....... shayad is duniya mein sabse zyada ✨.... Main tumhara har roop accept karta hoon—as my best friend, my soulmate, and my everything.
 
 I don’t know about the destination, but I promise... I want this beautiful journey only with you. ❤️✨`
 
