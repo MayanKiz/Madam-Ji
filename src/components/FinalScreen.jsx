@@ -135,7 +135,7 @@ I don’t know about the destination, but I promise... I want this beautiful jou
                   transition={{ repeat: Infinity, duration: 2 }}
                   className="absolute -top-2 -right-2 text-pink-400"
                 >
-                  ✨
+                  💕🌺
                 </motion.div>
               </motion.div>
 
