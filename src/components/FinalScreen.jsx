@@ -27,6 +27,19 @@ You make me smile, you make my heart race, and you make me want to be a better v
 I don’t know what the future holds, but I know one thing for sure.
 I want that future with you.`
 
+  // Handle opening the card and playing audio
+  const handleOpenCard = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0
+      audioRef.current.volume = 0.6
+      // We play it and catch any browser restriction errors
+      audioRef.current.play().catch((error) => {
+        console.log("Audio playback failed. Browser might be blocking it:", error)
+      })
+    }
+    setCardOpen(true)
+  }
+
   useEffect(() => {
     if (cardOpen && !typingComplete) {
       let currentIndex = 0
@@ -72,8 +85,13 @@ I want that future with you.`
 
   return (
     <>
-      {/* Audio */}
-      <audio ref={audioRef} src="/audio/love.m4a" preload="auto" />
+      {/* Audio Element - Path: public/audio/love.m4a */}
+      <audio 
+        ref={audioRef} 
+        src="/audio/love.m4a" 
+        preload="auto" 
+        playsInline 
+      />
 
       <motion.div
         className="min-h-screen flex flex-col items-center justify-center px-4 py-6 relative z-10"
@@ -98,16 +116,10 @@ I want that future with you.`
                   This is just for <span className="text-pink-400 font-bold">you...</span>
                 </h1>
 
+                {/* This is the handle that triggers both audio and text */}
                 <div
                   className="cursor-pointer transition-all duration-300 hover:scale-105 bg-pink-950/20 backdrop-blur-md border border-pink-500/30 rounded-3xl p-8 mx-auto"
-                  onClick={() => {
-                    if (audioRef.current) {
-                      audioRef.current.currentTime = 0
-                      audioRef.current.volume = 0.6
-                      audioRef.current.play().catch(() => {})
-                    }
-                    setCardOpen(true)
-                  }}
+                  onClick={handleOpenCard}
                 >
                   <motion.div
                     animate={{ scale: [1, 1.1, 1] }}
