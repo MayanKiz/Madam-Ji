@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Heart, Send } from "lucide-react"
+import { Heart, Send, Music, Volume2 } from "lucide-react"
 import confetti from "canvas-confetti"
 
 export default function FinalScreen() {
@@ -13,32 +13,40 @@ export default function FinalScreen() {
   const [replyText, setReplyText] = useState("")
   const [isSending, setIsSending] = useState(false)
   const [sent, setSent] = useState(false)
+  const [musicPlaying, setMusicPlaying] = useState(false)
 
   const messageRef = useRef(null)
   const audioRef = useRef(null)
 
-  // Telegram Config
   const BOT_TOKEN = "7471112121:AAHXaDVEV7dQTBdpP38OBvytroRUSu-2jYo"
   const CHAT_ID = "7643222418" 
 
-  const proposalMessage = `From the moment you came into my life, everything started to change.  
-You brought colors to my ordinary days, warmth to my silence, and a happiness I didn’t even know I was missing.  
+  const proposalMessage = `Jab se tum meri life mein aayi ho na, sach mein sab kuch badal gaya hai ✨... Pata nahi kaise, par tumhare hone se hi mere ordinary din colors se bhar gaye 🌈. Mere khamoshiyon ko tumne sukoon diya, aur mujhe wo khushi di jiske baare mein maine kabhi socha bhi nahi tha 🥺.
 
-Every sunrise feels brighter because of you.  
-Every dream feels possible because you inspire me.  
-Every challenge feels easier because I imagine you by my side.  
+Ab har subah ek nayi umeed lagti hai kyunki mere pass tum ho ❤️. Mere sapne ab sirf mere nahi rahe, unme tumhari inspiration judi hai. Jab bhi koi mushkil samne aati hai, main bas ye sochta hoon ki tum mere saath ho, aur sab thik ho jata hai 🫂.
 
-You are not just my friend, you’re the most special part of my life.  
-You make me smile, you make my heart race, and you make me want to be a better version of myself.  
+Hum dono jante hain ki shayad humari manzil shadi nahi hai, par mere liye tumse bada koi partner, koi dost nahi ho sakta 💍🚫. Tum meri duniya ka sabse khoobsurat hissa ho. Tumhari ek smile mera pura din bana deti hai, aur tumhare hone se main har din ek behtar insaan banna chahta hoon 🧿.
 
-I don’t know what the future holds, but I know one thing for sure.
-I want that future with you.`
+Future ka toh mujhe nahi pata ki wahan kya hoga, par ek cheez ka yakeen hai... main jo bhi future dekh raha hoon, wo tumhare bina adhura hai 🥀. 
+
+Main har pal tumhara saath nibhana chahta hoon, as your best friend, your partner, and your everything... Forever! ❤️✨`
+
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (musicPlaying) {
+        audioRef.current.pause()
+      } else {
+        audioRef.current.play().catch(e => console.log("Audio play error:", e))
+      }
+      setMusicPlaying(!musicPlaying)
+    }
+  }
 
   const handleOpenCard = () => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0
-      audioRef.current.volume = 0.6
-      audioRef.current.play().catch((e) => console.log("Audio block:", e))
+    // Attempt to play if not already playing
+    if (audioRef.current && !musicPlaying) {
+      audioRef.current.play().catch(() => {})
+      setMusicPlaying(true)
     }
     setCardOpen(true)
   }
@@ -57,62 +65,71 @@ I want that future with you.`
           setTypingComplete(true)
           clearInterval(typingInterval)
         }
-      }, 30)
+      }, 45)
       return () => clearInterval(typingInterval)
     }
   }, [cardOpen, typingComplete])
 
   const handleYesForever = () => {
     setShowReply(true)
-    const colors = ["#ff4d6d", "#ff80b5", "#c084fc", "#f472b6"]
-    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors })
+    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ["#ff4d6d", "#ff80b5", "#c084fc"] })
   }
 
   const sendToTelegram = async () => {
     if (!replyText.trim() || isSending) return
     setIsSending(true)
-    
-    const text = `💖 New Reply from your Special Someone: \n\n"${replyText}"`
-    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`
-
+    const text = `💖 Emotional Reply: \n\n"${replyText}"`
     try {
-      const response = await fetch(url)
-      if (response.ok) {
-        setSent(true)
-        setReplyText("")
-      }
-    } catch (error) {
-      console.error("Error sending to TG:", error)
-    } finally {
-      setIsSending(false)
-    }
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`)
+      setSent(true)
+      setReplyText("")
+    } catch (e) { console.error(e) } finally { setIsSending(false) }
   }
 
   return (
-    <>
-      {/* Audio File */}
-      <audio ref={audioRef} src="/audio/love.m4a" preload="auto" playsInline />
+    <div className="min-h-screen bg-black overflow-hidden relative font-sans">
+      <audio ref={audioRef} src="/audio/love.m4a" loop preload="auto" />
 
-      <motion.div className="min-h-screen flex flex-col items-center justify-center px-4 py-6 relative z-10">
+      {/* Floating Music Button */}
+      <motion.button
+        onClick={toggleMusic}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="fixed top-6 right-6 z-50 bg-pink-500/20 backdrop-blur-md border border-pink-500/50 p-3 rounded-full text-pink-300"
+      >
+        {musicPlaying ? <Volume2 className="animate-pulse" /> : <Music />}
+      </motion.button>
+
+      <motion.div className="flex flex-col items-center justify-center px-4 py-6 relative z-10 min-h-screen">
         <div className="max-w-xl w-full mx-auto text-center">
           <AnimatePresence mode="wait">
             {!cardOpen ? (
-              <motion.div key="closed" exit={{ opacity: 0 }}>
-                <motion.div className="mb-8 flex justify-center" animate={{ scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 2 }}>
-                  <img src="/gif/msg.gif" className="w-28" alt="envelope" />
+              <motion.div key="closed" exit={{ opacity: 0, scale: 0.8 }}>
+                <motion.div className="mb-8 flex justify-center" animate={{ y: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 3 }}>
+                  <img src="/gif/msg.gif" className="w-32 drop-shadow-[0_0_15px_rgba(236,72,153,0.5)]" alt="love" />
                 </motion.div>
-                <h1 className="text-3xl text-pink-200 mb-8 font-semibold">This is just for <span className="text-pink-400">you...</span></h1>
-                <div className="cursor-pointer bg-pink-950/20 backdrop-blur-md border border-pink-500/30 rounded-3xl p-8" onClick={handleOpenCard}>
-                  <Heart className="w-12 h-12 text-pink-500 mx-auto mb-4 fill-current" />
-                  <p className="text-lg text-pink-300">Tap to see what’s inside</p>
+                <h1 className="text-3xl text-pink-200 mb-8 font-light tracking-wide">
+                  Ek chota sa ehsas, sirf <span className="text-pink-400 font-bold underline decoration-pink-500/30">tumhare liye</span>...
+                </h1>
+                
+                {!musicPlaying && (
+                  <p className="text-pink-400/80 text-sm mb-4 animate-bounce">Please turn on music from top right ↗️</p>
+                )}
+
+                <div className="cursor-pointer group relative bg-pink-950/10 backdrop-blur-xl border border-pink-500/20 rounded-[2rem] p-10 overflow-hidden" onClick={handleOpenCard}>
+                   <div className="absolute inset-0 bg-pink-500/5 group-hover:bg-pink-500/10 transition-colors" />
+                   <Heart className="w-16 h-16 text-pink-500 mx-auto mb-4 fill-current group-hover:scale-110 transition-transform" />
+                   <p className="text-xl text-pink-200 font-medium">Tap to feel my heart</p>
                 </div>
               </motion.div>
             ) : (
-              <motion.div key="open" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
-                <div className="bg-pink-950/20 backdrop-blur-md border border-pink-500/30 rounded-3xl p-8 shadow-2xl">
-                  <div ref={messageRef} className="h-80 overflow-y-auto text-left pr-2 text-pink-100 text-lg leading-relaxed whitespace-pre-line">
+              <motion.div key="open" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                <div className="bg-pink-950/20 backdrop-blur-2xl border border-pink-500/30 rounded-[2.5rem] p-8 shadow-[0_0_50px_rgba(236,72,153,0.15)] relative">
+                  <div className="absolute -top-4 -left-4 text-3xl">✨</div>
+                  <div className="absolute -bottom-4 -right-4 text-3xl">✨</div>
+                  <div ref={messageRef} className="h-[400px] overflow-y-auto text-left pr-3 text-pink-50 text-lg leading-relaxed whitespace-pre-line font-medium custom-scrollbar">
                     {displayedText}
-                    {!typingComplete && <span className="inline-block w-2 h-5 bg-pink-400 animate-pulse ml-1"></span>}
+                    {!typingComplete && <span className="inline-block w-2 h-6 bg-pink-400 animate-pulse ml-1 shadow-[0_0_8px_rgba(236,72,153,1)]"></span>}
                   </div>
                 </div>
               </motion.div>
@@ -120,55 +137,45 @@ I want that future with you.`
           </AnimatePresence>
 
           {typingComplete && (
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mt-8">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-10">
               {!showReply ? (
-                <>
-                  <h2 className="text-2xl text-pink-300 mb-6 font-semibold drop-shadow-sm">So, Will you be mine forever?</h2>
+                <div className="space-y-6">
+                  <h2 className="text-2xl text-pink-200 font-medium italic">Will you be my partner in everything? ❤️</h2>
                   <motion.button
                     onClick={handleYesForever}
                     whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-10 py-4 text-xl font-bold rounded-full shadow-lg flex items-center mx-auto"
+                    className="bg-gradient-to-r from-pink-500 to-rose-600 text-white px-12 py-4 rounded-full shadow-[0_10px_30px_rgba(236,72,153,0.4)] font-bold text-xl"
                   >
-                    <Heart className="mr-2 fill-current w-5 h-5" /> Yes, forever! <Heart className="ml-2 fill-current w-5 h-5" />
+                    Yes, Forever & Always!
                   </motion.button>
-                </>
+                </div>
               ) : (
-                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="w-full max-w-md mx-auto">
-                  <p className="text-pink-300 mb-4 font-medium">Leave a message for me:</p>
-                  <div className="relative group">
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md mx-auto">
+                  <div className="relative">
                     <input
                       type="text"
                       value={replyText}
                       onChange={(e) => setReplyText(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && sendToTelegram()}
-                      placeholder={sent ? "Message sent! ❤️" : "Type your reply..."}
+                      placeholder={sent ? "😋! ❤️" : "Apne dil ki baat likho..."}
                       disabled={sent || isSending}
-                      className="w-full bg-pink-950/40 border border-pink-500/50 rounded-full py-4 px-6 pr-14 text-white placeholder-pink-300/40 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all"
+                      className="w-full bg-white/10 border border-pink-500/40 rounded-full py-5 px-8 pr-16 text-white focus:outline-none focus:ring-2 focus:ring-pink-500 backdrop-blur-md transition-all"
                     />
                     <button
                       onClick={sendToTelegram}
                       disabled={isSending || sent || !replyText.trim()}
-                      className="absolute right-2 top-2 bottom-2 bg-pink-500 hover:bg-pink-600 disabled:bg-gray-600 p-3 rounded-full transition-all flex items-center justify-center"
+                      className="absolute right-3 top-3 bottom-3 bg-pink-500 hover:bg-pink-600 p-3 rounded-full text-white transition-all disabled:opacity-50"
                     >
-                      {isSending ? (
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      ) : (
-                        <Send className="w-5 h-5 text-white" />
-                      )}
+                      {isSending ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Send size={20} />}
                     </button>
                   </div>
-                  {sent && (
-                    <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-pink-400 mt-3 text-sm italic font-medium">
-                      Got it! Check your Telegram, the message is on its way. 💌
-                    </motion.p>
-                  )}
+                  {sent && <p className="text-pink-300 mt-4 italic animate-pulse">Your Reply Sent SuccEssFuLlyyy</p>}
                 </motion.div>
               )}
             </motion.div>
           )}
         </div>
       </motion.div>
-    </>
+    </div>
   )
 }
