@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Heart, Send, Sparkles, X, CheckCircle2, MessageSquareHeart } from "lucide-react"
+import { Heart, Send, X, CheckCircle2 } from "lucide-react"
 import confetti from "canvas-confetti"
 
 export default function FinalScreen() {
@@ -58,7 +58,7 @@ I don’t know about the destination, but I promise... I want this beautiful jou
   const sendToTelegram = async () => {
     if (!replyText.trim() || isSending) return
     setIsSending(true)
-    const text = `💖 New Letter from Her: \n\n"${replyText}"`
+    const text = `💖 Letter from her: \n\n"${replyText}"`
     try {
       const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`)
       if (res.ok) {
@@ -81,79 +81,50 @@ I don’t know about the destination, but I promise... I want this beautiful jou
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden bg-[#0a0a0a]">
       
-      {/* --- CONTINUOUS FLOATING ELEMENTS (PETALS, HEARTS, SPARKLES) --- */}
+      {/* --- CONTINUOUS RAIN (🌺, 🌸, 🌼) --- */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(18)].map((_, i) => (
           <motion.div
             key={i}
             initial={{ y: -100, x: Math.random() * 400, opacity: 0 }}
             animate={{ 
               y: 1000, 
-              x: (Math.random() - 0.5) * 200, 
+              x: (Math.random() - 0.5) * 150, 
               rotate: 360,
               opacity: [0, 1, 1, 0]
             }}
             transition={{ 
-              duration: 8 + Math.random() * 10, 
+              duration: 7 + Math.random() * 8, 
               repeat: Infinity, 
-              delay: Math.random() * 10,
+              delay: Math.random() * 5,
               ease: "linear" 
             }}
-            className="absolute"
+            className="absolute text-2xl"
           >
-            {i % 3 === 0 ? (
-              <span className="text-pink-400/30 text-2xl">🌸</span>
-            ) : i % 3 === 1 ? (
-              <Heart size={Math.random() * 15 + 10} className="text-pink-500/20 fill-current" />
-            ) : (
-              <Sparkles size={Math.random() * 20 + 10} className="text-purple-400/20" />
-            )}
+            {i % 3 === 0 ? "🌺" : i % 3 === 1 ? "🌼" : "🌸"}
           </motion.div>
         ))}
-        {/* Soft Pink Background Glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-pink-600/10 blur-[120px] rounded-full" />
       </div>
 
       <div className="w-full max-w-md mx-auto text-center relative z-20">
         <AnimatePresence mode="wait">
           {!cardOpen ? (
-            <motion.div 
-              key="closed" 
-              initial={{ opacity: 0, scale: 0.9 }} 
-              animate={{ opacity: 1, scale: 1 }} 
-              exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
-              className="flex flex-col items-center"
-            >
-              <motion.div 
-                animate={{ y: [0, -20, 0] }} 
-                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} 
-                className="mb-8 relative"
-              >
-                <img src="/gif/msg.gif" className="w-28 mx-auto drop-shadow-[0_0_20px_rgba(236,72,153,0.4)]" alt="letter" />
-                <motion.div 
-                  animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
-                  transition={{ repeat: Infinity, duration: 2 }}
-                  className="absolute -top-2 -right-2 text-pink-400"
-                >
-                  💕🌺
-                </motion.div>
+            <motion.div key="closed" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}>
+              <motion.div animate={{ y: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 3 }} className="mb-8">
+                <img src="/gif/msg.gif" className="w-28 mx-auto drop-shadow-[0_0_20px_pink]" alt="letter" />
               </motion.div>
-
-              <h2 className="text-pink-100/60 text-[11px] tracking-[0.6em] mb-12 uppercase font-light">Dedicated to You</h2>
-              
+              <h2 className="text-pink-100/40 text-[11px] tracking-[0.5em] mb-12 uppercase font-light italic text-center">Touch My Soul</h2>
               <motion.div 
-                whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.9 }} 
-                onClick={() => { setCardOpen(true); confetti({ particleCount: 100, spread: 70 }); }} 
-                className="cursor-pointer bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)] group"
+                onClick={() => { setCardOpen(true); confetti(); }} 
+                className="cursor-pointer bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-12 shadow-2xl group"
               >
-                 <Heart className="w-16 h-16 text-pink-500 fill-current group-hover:text-pink-400 transition-colors drop-shadow-[0_0_15px_rgba(236,72,153,0.6)]" />
-                 <p className="mt-6 text-pink-100/80 tracking-[0.3em] font-light text-[10px] uppercase">Tap to open my heart</p>
+                 <Heart className="w-16 h-16 text-pink-500 fill-current drop-shadow-[0_0_15px_pink]" />
               </motion.div>
             </motion.div>
           ) : (
-            <motion.div key="open" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-              <div className={`bg-black/60 backdrop-blur-[40px] border border-white/10 rounded-[3rem] p-8 shadow-2xl transition-all duration-700 ${showPopup ? 'blur-xl opacity-20 scale-90' : 'opacity-100 border-t-pink-500/20'}`}>
+            <motion.div key="open" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}>
+              <div className={`bg-black/60 backdrop-blur-[35px] border border-white/10 rounded-[3rem] p-8 shadow-2xl transition-all duration-700 ${showPopup ? 'blur-xl opacity-20 scale-90' : 'opacity-100 border-t-pink-500/20'}`}>
                 <div ref={messageRef} className="h-[400px] overflow-y-auto text-left pr-3 text-pink-50 text-[1.05rem] leading-[1.8] italic font-light whitespace-pre-line custom-scrollbar">
                   {displayedText}
                   {!typingComplete && <motion.span animate={{ opacity: [0, 1] }} transition={{ repeat: Infinity }} className="inline-block w-1.5 h-6 bg-pink-500 ml-1 shadow-[0_0_10px_pink]" />}
@@ -163,10 +134,9 @@ I don’t know about the destination, but I promise... I want this beautiful jou
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mt-8 pt-6 border-t border-white/5 flex flex-col items-center gap-4">
                     <p className="text-pink-200/60 italic text-[13px] font-light">Will you stay by my side hamesha? ❤️</p>
                     <motion.button 
-                      onClick={() => { setShowPopup(true); confetti({ particleCount: 60, colors: ['#ff4d6d', '#ffffff'] }); }}
-                      whileHover={{ scale: 1.02 }}
+                      onClick={() => { setShowPopup(true); confetti({ particleCount: 60 }); }}
                       whileTap={{ scale: 0.95 }}
-                      className="bg-gradient-to-r from-pink-600 to-rose-700 text-white w-full py-4 rounded-full font-bold tracking-[0.2em] text-[11px] uppercase shadow-lg shadow-pink-900/20"
+                      className="bg-gradient-to-r from-pink-600 to-rose-700 text-white w-full py-4 rounded-full font-bold tracking-[0.2em] text-[11px] uppercase shadow-lg"
                     >
                       Yes, Hamesha! ❤️
                     </motion.button>
@@ -177,35 +147,27 @@ I don’t know about the destination, but I promise... I want this beautiful jou
           )}
         </AnimatePresence>
 
-        {/* --- SWEET REPlY POPUP --- */}
+        {/* --- POPUP AREA --- */}
         <AnimatePresence>
           {showPopup && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[100] flex items-center justify-center px-6 bg-black/85 backdrop-blur-md">
-              <motion.div 
-                initial={{ scale: 0.8, y: 50 }} 
-                animate={{ scale: 1, y: 0 }} 
-                exit={{ scale: 0.8, opacity: 0 }} 
-                className="bg-[#121212] border border-white/10 w-full max-w-sm rounded-[3rem] p-8 shadow-[0_0_60px_rgba(236,72,153,0.2)] relative overflow-hidden"
-              >
-                {/* Decorative glow inside popup */}
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-pink-500/10 blur-3xl rounded-full" />
+              <motion.div initial={{ scale: 0.8, y: 50 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.8, opacity: 0 }} className="bg-[#121212] border border-white/10 w-full max-w-sm rounded-[3rem] p-8 shadow-2xl relative">
                 
-                <button onClick={() => { setShowPopup(false); setSent(false); }} className="absolute top-6 right-6 text-white/20 hover:text-white transition-colors z-10">
+                <button onClick={() => { setShowPopup(false); setSent(false); }} className="absolute top-6 right-6 text-white/20 hover:text-white transition-colors">
                   <X size={24}/>
                 </button>
 
                 {!sent ? (
-                  <div className="relative z-10">
-                    <div className="text-center mb-8 pt-4">
-                      <Sparkles className="mx-auto text-pink-400 mb-3" size={28} />
-                      <h3 className="text-pink-50 font-light italic text-xl tracking-wide">Write back to me...</h3>
+                  <>
+                    <div className="text-center mb-8 pt-4 italic">
+                       <h3 className="text-pink-50 font-light text-xl tracking-wide underline decoration-pink-500/30 underline-offset-8">Leave a Letter</h3>
                     </div>
                     <textarea
                       rows={6}
                       value={replyText}
                       onChange={(e) => setReplyText(e.target.value)}
-                      placeholder="Type your heart out..."
-                      className="w-full bg-white/5 border border-white/10 rounded-[2rem] p-6 text-white placeholder-pink-200/10 focus:outline-none focus:ring-1 focus:ring-pink-500/50 italic font-light resize-none mb-6 text-lg"
+                      placeholder="Type your reply here..."
+                      className="w-full bg-white/5 border border-white/10 rounded-[2rem] p-6 text-white placeholder-pink-200/5 focus:outline-none focus:ring-1 focus:ring-pink-500/40 italic font-light resize-none mb-6 text-lg"
                     />
                     <button 
                       onClick={sendToTelegram} 
@@ -214,21 +176,12 @@ I don’t know about the destination, but I promise... I want this beautiful jou
                     >
                       {isSending ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><Send size={18}/> Send Letter</>}
                     </button>
-                  </div>
+                  </>
                 ) : (
-                  <div className="py-12 text-center space-y-6 relative z-10">
-                    <motion.div initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', damping: 10 }}>
-                      <div className="w-20 h-20 bg-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-pink-500/30">
-                        <CheckCircle2 size={40} className="text-pink-400" />
-                      </div>
-                    </motion.div>
-                    <h3 className="text-2xl text-white font-light tracking-widest italic uppercase">Received! ❤️</h3>
-                    <div className="pt-4">
-                      <p className="text-pink-300/40 text-[9px] tracking-[0.6em] uppercase">Refreshing in {countdown}...</p>
-                      <div className="w-32 h-[1px] bg-white/10 mx-auto mt-6 overflow-hidden rounded-full">
-                        <motion.div initial={{ x: '-100%' }} animate={{ x: '0%' }} transition={{ duration: 3, ease: 'linear' }} className="w-full h-full bg-pink-500" />
-                      </div>
-                    </div>
+                  <div className="py-12 text-center space-y-6">
+                    <CheckCircle2 size={60} className="mx-auto text-pink-500" />
+                    <h3 className="text-2xl text-white font-light tracking-widest italic uppercase">Sent! ❤️</h3>
+                    <p className="text-pink-300/40 text-[9px] tracking-[0.6em] uppercase underline underline-offset-4">Resetting in {countdown}...</p>
                   </div>
                 )}
               </motion.div>
