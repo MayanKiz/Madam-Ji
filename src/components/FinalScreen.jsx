@@ -73,7 +73,7 @@ I want that future with you.`
   return (
     <>
       {/* Audio */}
-      <audio ref={audioRef} src="/audio/love.mp3" preload="auto" />
+      <audio ref={audioRef} src="/audio/love.m4a" preload="auto" />
 
       <motion.div
         className="min-h-screen flex flex-col items-center justify-center px-4 py-6 relative z-10"
