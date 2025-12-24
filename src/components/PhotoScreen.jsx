@@ -34,7 +34,7 @@ export default function PhotoScreen({ onNext }) {
     },
     {
         id: 3,
-        src: "/images/file_00000000887c7209b097b2331dc485ca (1).png",
+        src: "/images/file_0000000042507209b6f99aa516559b45.png",
     },
     {
         id: 4,
