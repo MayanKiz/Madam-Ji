@@ -17,7 +17,7 @@ export default function FinalScreen() {
 
   const messageRef = useRef(null)
 
-  const BOT_TOKEN = "7471112121:AAEyXYz0RddrBXAFKdqsEF_gkViSvv9-Pz0-2jYo"
+  const BOT_TOKEN = "7471112121:AAEyXYz0RddrBXAFKdqsEF_gkViSvv9-Pz0"
   const CHAT_ID = "7643222418" 
 
   const proposalMessage = `Suno... ✨
