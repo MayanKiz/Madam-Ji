@@ -157,7 +157,7 @@ export default function ProposalSite() {
           animate={{ opacity: 0.4 }}
           className="fixed bottom-4 right-4 text-[10px] text-white pointer-events-none z-50 tracking-widest uppercase font-light"
         >
-          - Ur Sirrr
+          - Berlin_.fx
         </motion.div>
       )}
     </div>
