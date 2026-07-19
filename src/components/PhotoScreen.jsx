@@ -23,8 +23,7 @@ export default function PhotoScreen({ onNext }) {
     const photos = [
         { id: 1, src: "/images/file_0000000033d47209a53a135ce75025dd.png" },
         { id: 2, src: "/images/file_00000000887c7209b097b2331dc485ca.png" },
-        { id: 3, src: "/images/file_0000000042507209b6f99aa516559b45.png" },
-        { id: 4, src: "/images/file_00000000c0dc72098e7d57090b9f5d4d.png" },
+        
         { id: 5, src: "/images/file_00000000ca9872099c9ccb55f8904764.png" },
     ]
 
