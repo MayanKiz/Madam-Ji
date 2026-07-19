@@ -1,5 +1,5 @@
 "use client"
-  
+
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Music, Volume2, Heart, Sparkles } from "lucide-react"
@@ -26,6 +26,7 @@ export default function ProposalSite() {
     return () => clearTimeout(timer)
   }, [])
 
+  // Music toggle function for the top right button
   const handleMusicRequest = () => {
     if (audioRef.current) {
       if (musicStatus === "playing") {
@@ -45,13 +46,28 @@ export default function ProposalSite() {
     }
   }
 
+  // Force start music when clicking "Tap to Begin"
+  const startMusic = () => {
+    if (audioRef.current && musicStatus !== "playing") {
+      setMusicStatus("loading")
+      audioRef.current.play()
+        .then(() => {
+          setMusicStatus("playing")
+        })
+        .catch(e => {
+          console.log("Error:", e)
+          setMusicStatus("idle")
+        })
+    }
+  }
+
   const nextScreen = (screen) => {
     setCurrentScreen(screen)
   }
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden font-sans">
-      
+
       {/* Global Audio */}
       <audio 
         ref={audioRef} 
@@ -127,7 +143,17 @@ export default function ProposalSite() {
         {isLoading && <CuteLoader key="loader" onComplete={() => setCurrentScreen("first")} />}
 
         <div className="relative z-10">
-          {currentScreen === "first" && <FirstScreen key="first" onNext={() => nextScreen("question1")} />}
+          {/* Modified this line below to trigger music on Tap to Begin */}
+          {currentScreen === "first" && (
+            <FirstScreen 
+              key="first" 
+              onNext={() => {
+                startMusic() 
+                nextScreen("question1")
+              }} 
+            />
+          )}
+          
           {currentScreen === "question1" && (
             <QuestionScreen
               key="question1"
