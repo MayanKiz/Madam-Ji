@@ -20,22 +20,21 @@ export default function FinalScreen() {
   const BOT_TOKEN = "7471112121:AAEyXYz0RddrBXAFKdqsEF_gkViSvv9-Pz0"
   const CHAT_ID = "7643222418" 
 
-  const proposalMessage = `Suno... ✨
+  const proposalMessage = `Listen... ✨
 
-Jab se tum meri life mein aayi ho na, sach mein har cheez lajawab lagne lagi hai. Pata nahi kaise samjhaun, par tumhari ye jo baatein hain, tumhari ye jo chhoti-chhoti adayein hain... 
+Ever since you came into my life, everything has truly seemed amazing. I don't know how to explain it, but your words, your little jokes...
 
-Ye mere dil ko ek aisa sukoon deti hain jo maine kahin aur mehsoos hi nahi kiya 🧿.
+They give my heart a peace I've never felt before.
 
-Tumhari khoobsurti sirf chehre se nahi, tumhare us bholepan se hai jo tumhari har baat mein jhalakta hai 🥺. Tumhare saath waqt kaise guzar jata hai, pata hi nahi chalta. 
+Your beauty isn't just your face, it's the innocence that shines through everything you say. I have no idea how time passes with you. 
 
-Tum sirf meri partner nahi, meri wo sabse pyari dost ho jise main kabhi khona nahi chahta 🫂.
+You're not just my partner, you're my dearest friend, someone I never want to lose.
 
-Hum dono ko pata hai ki raaste shayad shadi tak na jayein, par is safar mein main tumhara har ek kadam par saath dena chahta hoon 💍🚫. 
+We both know our paths may not lead to marriage, but I want to be with you every step of the way.
 
-Main chahta hoon ki tumhari har mushkil meri ho jaye, aur meri har khushi tumhari smile se shuru ho.
+I want every difficulty of yours to become mine, and every happiness of mine to begin with your smile.
 
-Tum bahut precious ho mere liye... shayad is duniya mein sabse zyada ✨. Main tumhara har roop accept karta hoon—as my best friend, my soulmate, and my everything.
-
+You're so precious to me... perhaps more than anyone in this world. I accept you in every form—as my best friend, my soulmate, and my everything. 
 I don’t know about the destination, but I promise... I want this beautiful journey only with you. ❤️✨`
 
   useEffect(() => {
