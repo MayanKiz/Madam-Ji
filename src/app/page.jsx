@@ -1,8 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Music, Volume2, Heart, Sparkles } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
 import FirstScreen from "@/components/FirstScreen"
 import QuestionScreen from "@/components/QuestionScreen"
 import BalloonsScreen from "@/components/BalloonsScreen"
@@ -26,26 +25,6 @@ export default function ProposalSite() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Music toggle function for the top right button
-  const handleMusicRequest = () => {
-    if (audioRef.current) {
-      if (musicStatus === "playing") {
-        audioRef.current.pause()
-        setMusicStatus("idle")
-      } else {
-        setMusicStatus("loading")
-        audioRef.current.play()
-          .then(() => {
-            setMusicStatus("playing")
-          })
-          .catch(e => {
-            console.log("Error:", e)
-            setMusicStatus("idle")
-          })
-      }
-    }
-  }
-
   // Force start music when clicking "Tap to Begin"
   const startMusic = () => {
     if (audioRef.current && musicStatus !== "playing") {
@@ -68,7 +47,7 @@ export default function ProposalSite() {
   return (
     <div className="min-h-screen bg-black relative overflow-hidden font-sans">
 
-      {/* Global Audio */}
+      {/* Global Audio (Hidden) */}
       <audio 
         ref={audioRef} 
         src={AUDIO_PATH} 
@@ -77,73 +56,10 @@ export default function ProposalSite() {
         onPlaying={() => setMusicStatus("playing")}
       />
 
-      {/* Dynamic Music Controller */}
-      {!isLoading && (
-        <motion.div className="fixed top-6 right-6 z-[100]">
-          <motion.button
-            onClick={handleMusicRequest}
-            layout
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ 
-              opacity: 1, 
-              x: 0,
-              boxShadow: musicStatus === "playing" ? "0 0 20px rgba(236, 72, 153, 0.4)" : "none"
-            }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full border transition-all duration-500 ${
-              musicStatus === "playing" 
-              ? "bg-pink-500 border-pink-300 text-white" 
-              : "bg-white/5 border-white/20 text-pink-300"
-            }`}
-          >
-            <AnimatePresence mode="wait">
-              {musicStatus === "idle" && (
-                <motion.div key="idle" className="flex items-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  <Sparkles size={14} className="animate-pulse" />
-                  <span className="text-[10px] uppercase tracking-widest font-bold">Play Music</span>
-                </motion.div>
-              )}
-
-              {musicStatus === "loading" && (
-                <motion.div key="loading" className="flex items-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                  <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span className="text-[10px] uppercase tracking-widest">Loading...</span>
-                </motion.div>
-              )}
-
-              {musicStatus === "playing" && (
-                <motion.div 
-                  key="playing"
-                  initial={{ scale: 0 }} 
-                  animate={{ scale: 1 }}
-                  className="flex items-center justify-center"
-                >
-                  {/* Dancing Bars Icon */}
-                  <div className="flex gap-[2px] items-end h-4">
-                    {[1, 2, 3, 4].map((bar) => (
-                      <motion.div
-                        key={bar}
-                        className="w-[3px] bg-white rounded-full"
-                        animate={{ height: [4, 16, 8, 14, 4] }}
-                        transition={{ 
-                          repeat: Infinity, 
-                          duration: 0.6 + (bar * 0.1), 
-                          ease: "easeInOut" 
-                        }}
-                      />
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
-        </motion.div>
-      )}
-
       <AnimatePresence mode="wait">
         {isLoading && <CuteLoader key="loader" onComplete={() => setCurrentScreen("first")} />}
 
         <div className="relative z-10">
-          {/* Modified this line below to trigger music on Tap to Begin */}
           {currentScreen === "first" && (
             <FirstScreen 
               key="first" 
