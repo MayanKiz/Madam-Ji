@@ -77,6 +77,16 @@ I don’t know about the destination, but I promise... I want this beautiful jou
     } catch (e) { console.error(e) } finally { setIsSending(false) }
   }
 
+  // Confetti trigger function
+  const handleHeartClick = () => {
+    setCardOpen(true)
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    })
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 relative overflow-hidden bg-[#0a0a0a]">
       
@@ -113,13 +123,16 @@ I don’t know about the destination, but I promise... I want this beautiful jou
                 <img src="/gif/msg.gif" className="w-28 mx-auto drop-shadow-[0_0_20px_pink]" alt="letter" />
               </motion.div>
               <h2 className="text-pink-100/40 text-[11px] tracking-[0.5em] mb-12 uppercase font-light italic text-center">Touch My Soul</h2>
+              
+              {/* Added flex, justify-center, and items-center to perfectly center the heart */}
               <motion.div 
                 whileTap={{ scale: 0.9 }} 
-                onClick={() => { setCardOpen(true); confetti(); }} 
-                className="cursor-pointer bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-12 shadow-2xl group"
+                onClick={handleHeartClick} 
+                className="cursor-pointer bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-12 shadow-2xl group flex justify-center items-center"
               >
                  <Heart className="w-16 h-16 text-pink-500 fill-current drop-shadow-[0_0_15px_pink]" />
               </motion.div>
+
             </motion.div>
           ) : (
             <motion.div key="open" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }}>
